@@ -74,8 +74,4 @@ Contributions are welcome! If you’d like to contribute to this project, please
 
 ## License
 
-This project is licensed under the MIT License.
-
----
-
-This README provides a general overview of your project, setup instructions, and a contribution guide. Feel free to customize the content based on any additional specifics or features unique to your project.
+This project is licensed under the GNU License.
