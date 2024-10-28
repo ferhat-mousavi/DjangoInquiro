@@ -34,6 +34,7 @@ class Question(models.Model):
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, related_name='questions')
     up_votes = models.IntegerField(default=0)  # Number of UP votes
     down_votes = models.IntegerField(default=0)  # Number of DOWN votes
+    score = models.IntegerField(default=0)  # Net score of the question
     views = models.IntegerField(default=0)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='open')
     last_activity = models.DateTimeField(default=timezone.now)
