@@ -22,7 +22,7 @@
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/YourUsername/DjangoInquiro.git
+   git clone https://github.com/ferhat-mousavi/DjangoInquiro.git
    cd DjangoInquiro
    ```
 
