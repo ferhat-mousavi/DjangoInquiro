@@ -17,7 +17,11 @@ class Comment(models.Model):
     updated_at = models.DateTimeField(auto_now=True)  # Timestamp for when the comment was last updated
 
     def __str__(self):
-        return f"Comment by {self.user.username} on {self.content_type} {self.object_id}"
+        if self.question:
+            return f"Comment by {self.user.username} on Question: {self.question.title}"
+        elif self.answer:
+            return f"Comment by {self.user.username} on Answer to Question: {self.answer.question.title}"
+        return f"Comment by {self.user.username}"
 
     def clean(self):
         """Ensure that a comment is linked to either a Question or an Answer, but not both."""
