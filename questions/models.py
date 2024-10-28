@@ -23,7 +23,8 @@ class Question(models.Model):
     title = models.CharField(max_length=255)
     content = models.TextField()  # Markdown content will be stored here
     tags = models.ManyToManyField(Tag, related_name='questions')
-    score = models.IntegerField(default=0)  # To keep track of UP and DOWN votes
+    up_votes = models.IntegerField(default=0)  # Number of UP votes
+    down_votes = models.IntegerField(default=0)  # Number of DOWN votes
     views = models.IntegerField(default=0)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='open')
     last_activity = models.DateTimeField(default=timezone.now)
@@ -37,13 +38,15 @@ class Question(models.Model):
         return self.title
 
     def up_vote(self):
-        """Increase the question's score by 1 for an UP vote"""
-        self.score += 1
+        """Increase the up_votes count by 1"""
+        self.up_votes += 1
+        self.score = self.up_votes - self.down_votes
         self.save()
 
     def down_vote(self):
-        """Decrease the question's score by 1 for a DOWN vote"""
-        self.score -= 1
+        """Increase the down_votes count by 1"""
+        self.down_votes += 1
+        self.score = self.up_votes - self.down_votes
         self.save()
 
     def increment_views(self):
