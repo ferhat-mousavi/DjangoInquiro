@@ -4,6 +4,14 @@ from django.utils import timezone
 from django.utils.text import slugify
 
 
+class Category(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    description = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.name
+
+
 class Tag(models.Model):
     name = models.CharField(max_length=50, unique=True)
 
@@ -23,6 +31,7 @@ class Question(models.Model):
     title = models.CharField(max_length=255)
     content = models.TextField()  # Markdown content will be stored here
     tags = models.ManyToManyField(Tag, related_name='questions')
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, related_name='questions')
     up_votes = models.IntegerField(default=0)  # Number of UP votes
     down_votes = models.IntegerField(default=0)  # Number of DOWN votes
     views = models.IntegerField(default=0)
@@ -30,6 +39,13 @@ class Question(models.Model):
     last_activity = models.DateTimeField(default=timezone.now)
     reports = models.IntegerField(default=0)  # Number of reports from users
     bookmarks = models.ManyToManyField(User, related_name='bookmarked_questions', blank=True)
+    accepted_answer = models.ForeignKey(
+        'answers.Answer',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='accepted_in_question'
+    )
 
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)

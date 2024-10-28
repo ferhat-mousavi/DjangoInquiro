@@ -1,11 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
-from questions.models import Question  # Assuming the Question model is in questions app
 
 
 class Answer(models.Model):
-    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='answers')  # The question being answered
+    question = models.ForeignKey('questions.Question', on_delete=models.CASCADE, related_name='answers')  # The question being answered
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='answers')  # The user who wrote the answer
     content = models.TextField()  # Markdown content of the answer
 
