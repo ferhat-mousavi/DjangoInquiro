@@ -43,19 +43,7 @@ INSTALLED_APPS = [
     'comments',
     'profiles',
     'home',
-
-    'markdownify',
 ]
-
-MARKDOWNIFY = {
-    "default": {
-        "BLEACH": False,
-        "WHITELIST_TAGS": ["a", "abbr", "acronym", "b", "blockquote", "code", "em", "i", "li", "ol", "strong", "ul", "p", "h1", "h2", "h3", "pre"],
-        "WHITELIST_ATTRS": ["href", "src"],
-        "WHITELIST_STYLES": ["color", "font-weight", "text-decoration"],
-        "HARD_WRAP": True,
-    }
-}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
