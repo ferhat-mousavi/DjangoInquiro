@@ -32,19 +32,21 @@
             <div class="row">
                 {% for question in questions %}
                     <div class="col-12 mb-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between">
-                                    <h5 class="card-title">{{ question.title }}</h5>
-                                    <small class="text-muted">{{ question.created_at|date:"Y-m-d H:i" }}</small>
-                                </div>
-                                <p class="card-text">{{ question.content|markdownify:2 }}</p>
-                                <div class="d-flex justify-content-between">
-                                    <small class="text-muted">Asked by: {{ question.user.username }}</small>
-                                    <small class="text-muted">Score: {{ question.score }}</small>
+                        <a href="" class="text-decoration-none text-dark">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <h5 class="card-title">{{ question.title }}</h5>
+                                        <small class="text-muted">{{ question.created_at|date:"Y-m-d H:i" }}</small>
+                                    </div>
+                                    <p class="card-text">{{ question.content|markdownify:2 }}</p>
+                                    <div class="d-flex justify-content-between">
+                                        <small class="text-muted">Asked by: {{ question.user.username }}</small>
+                                        <small class="text-muted">Score: {{ question.score }}</small>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </a>
                     </div>
                 {% endfor %}
             </div>
@@ -83,7 +85,7 @@
     <!-- Footer -->
     <footer class="bg-dark text-white py-3 mt-5">
         <div class="container text-center">
-            <p class="mb-0">© {{ year }} DjangoInquiro. All rights reserved.</p>
+            <p class="mb-0">© {% now "Y" %} DjangoInquiro. All rights reserved.</p>
         </div>
     </footer>
 
