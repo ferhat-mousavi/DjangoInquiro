@@ -123,6 +123,10 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+# Media files (user-uploaded content like profile avatars)
+MEDIA_URL = '/media/'  # URL to access media files in development
+MEDIA_ROOT = BASE_DIR / 'media'  # File system path to store media files
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
