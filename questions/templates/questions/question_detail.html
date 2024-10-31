@@ -35,6 +35,11 @@
         </div>
     </div>
 
+    <!-- Write Answer Button -->
+    <div class="d-flex justify-content-end mb-4">
+        <a href="{% url 'write_answer' question.id %}" class="btn btn-primary">Write Answer</a>
+    </div>
+
     <!-- Back to Questions Link -->
     <div class="d-flex justify-content-end">
         <a href="{% url 'question_list' %}" class="btn btn-secondary">Back to Questions</a>
