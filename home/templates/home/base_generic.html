@@ -17,6 +17,8 @@
             <nav>
                 {% if request.user.username %}
                 <a href="{% url 'profile' request.user.username %}" class="text-white me-3">Profile</a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="text-white me-3">Login</a>
                 {% endif %}
             </nav>
         </div>

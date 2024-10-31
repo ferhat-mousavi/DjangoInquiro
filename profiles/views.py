@@ -1,10 +1,11 @@
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, render, redirect
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.contrib.auth.models import User
 
-from .forms import ProfileEditForm
+from .forms import ProfileEditForm, LoginForm
 from .models import Profile
 
 
@@ -47,3 +48,21 @@ class EditProfileView(View):
             return redirect('profile', username=request.user.username)  # Redirect to the profile page
 
         return render(request, 'profiles/edit_profile.html', {'form': form, 'title': 'Edit Profile'})
+
+class LoginView(View):
+    def get(self, request):
+        form = LoginForm()
+        return render(request, 'profiles/login.html', {'form': form})
+
+    def post(self, request):
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('question_list')  # Redirect to the question list or another page after login
+            else:
+                form.add_error(None, "Invalid username or password")
+        return render(request, 'profiles/login.html', {'form': form})

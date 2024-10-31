@@ -1,0 +1,12 @@
+{% extends "home/base_generic.html" %}
+{% block content_block %}
+<div class="container my-5">
+    <h2>Login</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Login</button>
+    </form>
+    <a href="{% url 'question_list' %}" class="btn btn-secondary mt-3">Cancel</a>
+</div>
+{% endblock %}
