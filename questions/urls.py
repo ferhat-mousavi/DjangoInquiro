@@ -1,7 +1,7 @@
 from django.urls import path
-from . import views
+from .views import QuestionDetailView, QuestionVoteView
 
 urlpatterns = [
-    path('<str:slug>/', views.question_detail, name='question_detail'),
-    path('<int:id>/vote/<str:vote_type>/', views.question_vote, name='question_vote'),
+    path('<str:slug>/', QuestionDetailView.as_view(), name='question_detail'),
+    path('<int:id>/vote/<str:vote_type>/', QuestionVoteView.as_view(), name='question_vote'),
 ]
