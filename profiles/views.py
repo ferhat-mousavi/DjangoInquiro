@@ -5,7 +5,7 @@ from django.utils.decorators import method_decorator
 from django.views import View
 from django.contrib.auth.models import User
 
-from .forms import ProfileEditForm, LoginForm
+from .forms import ProfileEditForm, LoginForm, UserRegistrationForm
 from .models import Profile
 
 
@@ -73,3 +73,17 @@ class LogoutView(View):
     def post(self, request):
         logout(request)
         return redirect('question_list')  # Redirect to the main question list or home page after logout
+
+
+class RegisterView(View):
+    def get(self, request):
+        form = UserRegistrationForm()
+        return render(request, 'profiles/register.html', {'form': form})
+
+    def post(self, request):
+        form = UserRegistrationForm(request.POST, request.FILES)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)  # Log in the user after registration
+            return redirect('question_list')  # Redirect to the main question list
+        return render(request, 'profiles/register.html', {'form': form})
