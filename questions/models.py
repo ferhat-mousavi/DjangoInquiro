@@ -30,7 +30,7 @@ class Question(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='questions')
     title = models.CharField(max_length=255)
     content = models.TextField()  # Markdown content will be stored here
-    tags = models.ManyToManyField(Tag, related_name='questions')
+    tags = models.ManyToManyField(Tag, related_name='questions', blank=True)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, related_name='questions')
     up_votes = models.IntegerField(default=0)  # Number of UP votes
     down_votes = models.IntegerField(default=0)  # Number of DOWN votes

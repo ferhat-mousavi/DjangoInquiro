@@ -16,5 +16,6 @@ class QuestionForm(forms.ModelForm):
         labels = {
             'title': 'Question Title',
             'content': 'Question Content',
+            'category': 'Select Category',
             'tags': 'Tags (optional)',
         }
