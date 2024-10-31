@@ -3,8 +3,9 @@ from django.views.generic import DetailView, View
 from django.views.decorators.http import require_POST
 from django.utils.decorators import method_decorator
 
-from answers.models import Answer
 from .models import Question
+from answers.models import Answer
+from comments.models import Comment
 
 
 class QuestionDetailView(DetailView):
@@ -18,6 +19,8 @@ class QuestionDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         # We get all the answers according to the question
         context['answers'] = Answer.objects.filter(question=self.object).order_by('-created_at')
+        # Get all comments related to the question
+        context['comments'] = Comment.objects.filter(question=self.object).order_by('-created_at')
         return context
 
 

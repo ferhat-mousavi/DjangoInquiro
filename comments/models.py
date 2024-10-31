@@ -23,14 +23,12 @@ class Comment(models.Model):
             return f"Comment by {self.user.username} on Answer to Question: {self.answer.question.title}"
         return f"Comment by {self.user.username}"
 
-    def clean(self):
-        """Ensure that a comment is linked to either a Question or an Answer, but not both."""
+    def save(self, *args, **kwargs):
+        # Ensure that the comment is linked to either a Question or an Answer, but not both
         if not (self.question or self.answer):
             raise ValidationError("A comment must be linked to either a question or an answer.")
         if self.question and self.answer:
             raise ValidationError("A comment cannot be linked to both a question and an answer.")
 
-    def save(self, *args, **kwargs):
-        # Call full_clean to ensure validation before saving
-        self.full_clean()  # This will call clean() as well
+        # Save the comment after validation
         super(Comment, self).save(*args, **kwargs)

@@ -20,6 +20,7 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('home.urls')),  # Home app URLs as the root URL
-    path('questions/', include('questions.urls')), # Include the questions app URLs
+    path('questions/', include('questions.urls')),  # Include the questions app URLs
     path('answers/', include('answers.urls')),  # Include the answers app URLs
+    path('comments/', include('comments.urls')),    # Include the comments app URLs
 ]

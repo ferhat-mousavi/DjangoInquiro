@@ -30,6 +30,25 @@
                     </p>
                     <hr>
                     <div class="card-text">{{ question.content|markdownify }}</div>
+
+                    <!-- Comments List for the Question -->
+                    {% if comments %}
+                        {% for comment in comments %}
+                            <div class="card mb-2" style="text-align: right;">
+                                <div class="card-body p-2">
+                                    <div class="card-text mb-0">{{ comment.content|markdownify }}</div>
+                                    <p class="text-muted small mb-0">Commented by: <strong>{{ comment.user.username }}</strong> on {{ comment.created_at|date:"Y-m-d H:i" }}</p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-muted">No comments yet. Be the first to comment!</p>
+                    {% endif %}
+
+                    <!-- Write Comment Button for Question -->
+                    <div class="d-flex justify-content-end mt-3">
+                        <a href="{% url 'write_comment' 'question' question.id %}" class="btn btn-secondary btn-sm">Write Comment</a>
+                    </div>
                 </div>
             </div>
         </div>
