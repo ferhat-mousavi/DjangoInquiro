@@ -23,4 +23,5 @@ urlpatterns = [
     path('questions/', include('questions.urls')),  # Include the questions app URLs
     path('answers/', include('answers.urls')),  # Include the answers app URLs
     path('comments/', include('comments.urls')),    # Include the comments app URLs
+    path('profiles/', include('profiles.urls'))     # Include the profiles app URLs
 ]

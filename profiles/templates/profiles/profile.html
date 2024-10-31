@@ -1,0 +1,88 @@
+{% extends "home/base_generic.html" %}
+{% block content_block %}
+<div class="container my-5">
+    <!-- Profile Header -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="d-flex align-items-center">
+                {% if profile.avatar %}
+                    <img src="{{ profile.avatar.url }}" class="rounded-circle me-3" width="80" height="80" alt="Avatar">
+                {% else %}
+                    <i class="bi bi-person-circle fs-1 me-3"></i>
+                {% endif %}
+                <div>
+                    <h2 class="card-title">{{ profile.user.username }}</h2>
+                    <p class="card-text">{{ profile.user.first_name }} {{ profile.user.last_name }}</p>
+                    {% if request.user.username == profile.user.username %}
+                    <p class="card-text">{{ profile.user.email }}</p>
+                    {% endif %}
+                    <p class="card-text">{{ profile.bio }}</p>
+                    <p class="text-muted">Score: {{ profile.score }}</p>
+                </div>
+            </div>
+            {% if request.user.username == profile.user.username %}
+            <div class="d-flex justify-content-end mt-1">
+                <a href="{% url 'edit_profile' %}" class="btn btn-primary mt-3">Edit Profile</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- User's Questions -->
+    <div class="mb-4">
+        <h4>Questions</h4>
+        {% if questions %}
+            <ul class="list-group">
+                {% for question in questions %}
+                    <li class="list-group-item">
+                        <a href="{% url 'question_detail' question.slug %}">{{ question.title }}</a>
+                        <small class="text-muted float-end">Score: {{ question.score }}</small>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="text-muted">No questions posted.</p>
+        {% endif %}
+    </div>
+
+    <!-- User's Answers -->
+    <div class="mb-4">
+        <h4>Answers</h4>
+        {% if answers %}
+            <ul class="list-group">
+                {% for answer in answers %}
+                    <li class="list-group-item">
+                        <p>{{ answer.content|truncatewords:20 }}</p>
+                        <a href="{% url 'question_detail' answer.question.slug %}">View Question</a>
+                        <small class="text-muted float-end">Score: {{ answer.score }}</small>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="text-muted">No answers posted.</p>
+        {% endif %}
+    </div>
+
+    <!-- User's Comments -->
+    <div class="mb-4">
+        <h4>Comments</h4>
+        {% if comments %}
+            <ul class="list-group">
+                {% for comment in comments %}
+                    <li class="list-group-item">
+                        <p>{{ comment.content|truncatewords:20 }}</p>
+                        {% if comment.question %}
+                            <a href="{% url 'question_detail' comment.question.slug %}">View Question</a>
+                        {% elif comment.answer %}
+                            <a href="{% url 'question_detail' comment.answer.question.slug %}">View Question</a>
+                        {% endif %}
+                        <small class="text-muted float-end">{{ comment.created_at|date:"Y-m-d H:i" }}</small>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="text-muted">No comments posted.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
