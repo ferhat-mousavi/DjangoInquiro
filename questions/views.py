@@ -18,9 +18,9 @@ class QuestionDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # We get all the answers according to the question
-        context['answers'] = Answer.objects.filter(question=self.object).order_by('-created_at')
+        context['answers'] = Answer.objects.filter(question=self.object).order_by('created_at')
         # Get all comments related to the question
-        context['comments'] = Comment.objects.filter(question=self.object).order_by('-created_at')
+        context['comments'] = Comment.objects.filter(question=self.object).order_by('created_at')
         return context
 
 
