@@ -23,6 +23,10 @@
             {% if request.user.username == profile.user.username %}
             <div class="d-flex justify-content-end mt-1">
                 <a href="{% url 'edit_profile' %}" class="btn btn-primary mt-3">Edit Profile</a>
+                <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger mt-3">Logout</button>
+                </form>
             </div>
             {% endif %}
         </div>

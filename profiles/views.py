@@ -1,4 +1,4 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, render, redirect
 from django.utils.decorators import method_decorator
@@ -49,6 +49,7 @@ class EditProfileView(View):
 
         return render(request, 'profiles/edit_profile.html', {'form': form, 'title': 'Edit Profile'})
 
+
 class LoginView(View):
     def get(self, request):
         form = LoginForm()
@@ -66,3 +67,9 @@ class LoginView(View):
             else:
                 form.add_error(None, "Invalid username or password")
         return render(request, 'profiles/login.html', {'form': form})
+
+
+class LogoutView(View):
+    def post(self, request):
+        logout(request)
+        return redirect('question_list')  # Redirect to the main question list or home page after logout
