@@ -1,8 +1,9 @@
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import DetailView, View
 from django.views.decorators.http import require_POST
 from django.utils.decorators import method_decorator
 
+from .forms import QuestionForm
 from .models import Question
 from answers.models import Answer
 from comments.models import Comment
@@ -40,3 +41,25 @@ class QuestionVoteView(View):
 
         question.save()
         return redirect('question_detail', slug=question.slug)
+
+
+class AskQuestionView(View):
+    def get(self, request):
+        # Initialize an empty form for the GET request
+        form = QuestionForm()
+        return render(request, 'questions/ask_question.html', {'form': form, 'title': 'Ask a Question'})
+
+    def post(self, request):
+        # Populate the form with POST data
+        form = QuestionForm(request.POST)
+        if form.is_valid():
+            # Create a new question without saving to the database yet
+            question = form.save(commit=False)
+            question.user = request.user  # Set the user who asked the question
+            question.save()  # Save the question to the database
+            form.save_m2m()  # Save any tags or many-to-many relationships
+
+            return redirect('question_detail', slug=question.slug)  # Redirect to the question's detail page
+
+        # If the form is invalid, render the form with errors
+        return render(request, 'questions/ask_question.html', {'form': form, 'title': 'Ask a Question'})

@@ -1,0 +1,11 @@
+{% extends "home/base_generic.html" %}
+{% block content_block %}
+<div class="container my-5">
+    <h2 class="mb-4">{{ title }}</h2>
+    <form method="post" action="">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Submit Question</button>
+    </form>
+</div>
+{% endblock %}
