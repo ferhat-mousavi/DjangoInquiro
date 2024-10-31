@@ -1,0 +1,43 @@
+{% extends "home/base_generic.html" %}
+{% load markdownify %}
+{% block content_block %}
+<div class="container my-5">
+    <div class="card mb-4">
+        <div class="row g-0">
+            <!-- Voting Buttons and Score -->
+            <div class="col-auto d-flex flex-column align-items-center p-4">
+                <form method="post" action="{% url 'question_vote' question.id 'up' %}" class="mb-2">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-success btn-sm">
+                        <i class="bi bi-arrow-up"></i>
+                    </button>
+                </form>
+                <span class="text-muted fs-5">{{ question.score }}</span>
+                <form method="post" action="{% url 'question_vote' question.id 'down' %}" class="mt-2">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-danger btn-sm">
+                        <i class="bi bi-arrow-down"></i>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Question Content -->
+            <div class="col">
+                <div class="card-body">
+                    <h1 class="card-title">{{ question.title }}</h1>
+                    <p class="card-subtitle text-muted mb-3">
+                        Asked by: <strong>{{ question.user.username }}</strong> on {{ question.created_at|date:"Y-m-d H:i" }}
+                    </p>
+                    <hr>
+                    <div class="card-text">{{ question.content|markdownify }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back to Questions Link -->
+    <div class="d-flex justify-content-end">
+        <a href="{% url 'question_list' %}" class="btn btn-secondary">Back to Questions</a>
+    </div>
+</div>
+{% endblock %}
