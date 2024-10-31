@@ -12,7 +12,11 @@ class WriteAnswerView(View):
     def get(self, request, question_id):
         question = get_object_or_404(Question, id=question_id)
         form = AnswerForm()
-        return render(request, 'answers/write_answer.html', {'question': question, 'form': form})
+        return render(request, 'answers/write_answer.html', {
+            'question': question,
+            'form': form,
+            'title': f"Answer to : {question.title}"
+        })
 
     def post(self, request, question_id):
         question = get_object_or_404(Question, id=question_id)

@@ -21,6 +21,10 @@ class QuestionDetailView(DetailView):
         context['answers'] = Answer.objects.filter(question=self.object).order_by('created_at')
         # Get all comments related to the question
         context['comments'] = Comment.objects.filter(question=self.object).order_by('created_at')
+
+        # Set the title based on the question's title
+        context['title'] = f"DjangoInquiro - {self.object.title}"
+
         return context
 
 

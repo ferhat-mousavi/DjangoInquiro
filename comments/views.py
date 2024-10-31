@@ -11,8 +11,10 @@ class WriteCommentView(View):
     def get(self, request, model_type, model_id):
         if model_type == 'question':
             parent_object = get_object_or_404(Question, id=model_id)
+            title = f"Comment on Question: {parent_object.title}"
         elif model_type == 'answer':
             parent_object = get_object_or_404(Answer, id=model_id)
+            title = f"Comment on Answer to: {parent_object.question.title}"
         else:
             return redirect('question_list')  # Geçersiz model_type için
 
@@ -20,7 +22,8 @@ class WriteCommentView(View):
         return render(request, 'comments/write_comment.html', {
             'form': form,
             'parent_object': parent_object,
-            'model_type': model_type
+            'model_type': model_type,
+            'title': title
         })
 
     def post(self, request, model_type, model_id):
