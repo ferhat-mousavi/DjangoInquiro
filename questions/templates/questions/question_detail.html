@@ -40,6 +40,25 @@
         <a href="{% url 'write_answer' question.id %}" class="btn btn-primary">Write Answer</a>
     </div>
 
+    <!-- Answers List -->
+    <h3>Answers</h3>
+    {% if answers %}
+        {% for answer in answers %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <p class="mb-1 text-muted">Answered by: <strong>{{ answer.user.username }}</strong> on {{ answer.created_at|date:"Y-m-d H:i" }}</p>
+                        <small class="text-muted">Score: {{ answer.score }}</small>
+                    </div>
+                    <hr>
+                    <div class="card-text">{{ answer.content|markdownify }}</div>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p class="text-muted">No answers yet. Be the first to answer!</p>
+    {% endif %}
+
     <!-- Back to Questions Link -->
     <div class="d-flex justify-content-end">
         <a href="{% url 'question_list' %}" class="btn btn-secondary">Back to Questions</a>

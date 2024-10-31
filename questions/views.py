@@ -1,8 +1,9 @@
 from django.shortcuts import get_object_or_404, redirect
-from django.urls import reverse
 from django.views.generic import DetailView, View
 from django.views.decorators.http import require_POST
 from django.utils.decorators import method_decorator
+
+from answers.models import Answer
 from .models import Question
 
 
@@ -12,6 +13,12 @@ class QuestionDetailView(DetailView):
     context_object_name = 'question'
     slug_field = 'slug'
     slug_url_kwarg = 'slug'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # We get all the answers according to the question
+        context['answers'] = Answer.objects.filter(question=self.object).order_by('-created_at')
+        return context
 
 
 @method_decorator(require_POST, name='dispatch')
