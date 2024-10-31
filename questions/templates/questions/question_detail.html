@@ -2,6 +2,10 @@
 {% load markdownify %}
 {% block content_block %}
 <div class="container my-5">
+    <div class="row">
+        <!-- Main Question and Answer Section -->
+        <div class="col-md-9">
+            <!-- Question Card -->
     <div class="card mb-4">
         <div class="row g-0">
             <!-- Voting Buttons and Score for the Question -->
@@ -116,10 +120,31 @@
     {% else %}
         <p class="text-muted">No answers yet. Be the first to answer!</p>
     {% endif %}
-
-    <!-- Back to Questions Link -->
-    <div class="d-flex justify-content-end">
-        <a href="{% url 'question_list' %}" class="btn btn-secondary">Back to Questions</a>
+        </div>
+        <!-- Sidebar for Category and Tags -->
+        <div class="col-md-3">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Category</h5>
+                    {% if question.category %}
+                        <p class="text-muted">{{ question.category.name }}</p>
+                    {% else %}
+                        <p class="text-muted">No category</p>
+                    {% endif %}
+                    <hr>
+                    <h5 class="card-title">Tags</h5>
+                    <div>
+                        {% for tag in question.tags.all %}
+                            <span class="badge bg-secondary">{{ tag.name }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Back to Questions Link -->
+        <div class="d-flex justify-content-end">
+            <a href="{% url 'question_list' %}" class="btn btn-secondary">Back to Questions</a>
+        </div>
     </div>
 </div>
 {% endblock %}
