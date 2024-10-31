@@ -4,7 +4,7 @@
 <div class="container my-5">
     <div class="card mb-4">
         <div class="row g-0">
-            <!-- Voting Buttons and Score -->
+            <!-- Voting Buttons and Score for the Question -->
             <div class="col-auto d-flex flex-column align-items-center p-4">
                 <form method="post" action="{% url 'question_vote' question.id 'up' %}" class="mb-2">
                     {% csrf_token %}
@@ -61,31 +61,53 @@
     <h3>Answers</h3>
     {% if answers %}
         {% for answer in answers %}
-            <div class="card mb-3">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        <p class="mb-1 text-muted">Answered by: <strong>{{ answer.user.username }}</strong> on {{ answer.created_at|date:"Y-m-d H:i" }}</p>
-                        <small class="text-muted">Score: {{ answer.score }}</small>
+           <div class="card mb-3">
+                <div class="row g-0">
+                    <!-- Voting Buttons and Score for the Answer -->
+                    <div class="col-auto d-flex flex-column align-items-center p-4">
+                        <form method="post" action="{% url 'answer_vote' answer.id 'up' %}" class="mb-2">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-outline-success btn-sm">
+                                <i class="bi bi-arrow-up"></i>
+                            </button>
+                        </form>
+                        <span class="text-muted fs-5">{{ answer.score }}</span>
+                        <form method="post" action="{% url 'answer_vote' answer.id 'down' %}" class="mt-2">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-outline-danger btn-sm">
+                                <i class="bi bi-arrow-down"></i>
+                            </button>
+                        </form>
                     </div>
-                    <hr>
-                    <div class="card-text">{{ answer.content|markdownify }}</div>
 
-                    <!-- Comments for Each Answer -->
-                    <div class="mt-3">
-                        {% if answer.comments.all %}
-                            {% for comment in answer.comments.all %}
-                                <div class="card mb-2" style="text-align: right;">
-                                    <div class="card-body p-2">
-                                        <div class="card-text mb-0">{{ comment.content|markdownify }}</div>
-                                        <p class="text-muted small mb-0">Commented by: <strong>{{ comment.user.username }}</strong> on {{ comment.created_at|date:"Y-m-d H:i" }}</p>
-                                    </div>
+                    <!-- Answer Content -->
+                    <div class="col">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <p class="mb-1 text-muted">Answered by: <strong>{{ answer.user.username }}</strong> on {{ answer.created_at|date:"Y-m-d H:i" }}</p>
+                                <small class="text-muted">Score: {{ answer.score }}</small>
+                            </div>
+                            <hr>
+                            <div class="card-text">{{ answer.content|markdownify }}</div>
+
+                            <!-- Comments for Each Answer -->
+                            <div class="mt-3">
+                                {% if answer.comments.all %}
+                                    {% for comment in answer.comments.all %}
+                                        <div class="card mb-2" style="text-align: right;">
+                                            <div class="card-body p-2">
+                                                <div class="card-text mb-0">{{ comment.content|markdownify }}</div>
+                                                <p class="text-muted small mb-0">Commented by: <strong>{{ comment.user.username }}</strong> on {{ comment.created_at|date:"Y-m-d H:i" }}</p>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+
+                                <!-- Write Comment Button for Each Answer -->
+                                <div class="d-flex justify-content-end mt-1">
+                                    <a href="{% url 'write_comment' 'answer' answer.id %}" class="btn btn-secondary btn-sm">Write Comment</a>
                                 </div>
-                            {% endfor %}
-                        {% endif %}
-
-                        <!-- Write Comment Button for Each Answer -->
-                        <div class="d-flex justify-content-end mt-1">
-                            <a href="{% url 'write_comment' 'answer' answer.id %}" class="btn btn-secondary btn-sm">Write Comment</a>
+                            </div>
                         </div>
                     </div>
                 </div>
