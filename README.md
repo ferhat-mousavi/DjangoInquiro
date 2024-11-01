@@ -53,7 +53,11 @@
    python manage.py runserver
    ```
 
-7. Open your browser and navigate to `http://127.0.0.1:8000/` to access the platform.
+7. Open your browser and navigate to `http://127.0.0.1:8000/admin` to access the Django admin panel. Log in with the superuser account you created earlier.
+
+8. In the admin panel, go to the **Profiles** section. Here, create a profile for the superuser by linking it to the corresponding user. This profile setup will ensure the user can fully interact with the platform, including asking questions, answering, and commenting.
+
+9. Then, navigate to `http://127.0.0.1:8000/` to access the main platform.
 
 ## Features
 
