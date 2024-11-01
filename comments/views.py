@@ -3,7 +3,6 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.views import View
 from questions.models import Question
 from answers.models import Answer
-from .models import Comment
 from .forms import CommentForm
 
 

@@ -4,7 +4,6 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.contrib.auth.models import User
-
 from .forms import ProfileEditForm, LoginForm, UserRegistrationForm
 from .models import Profile
 

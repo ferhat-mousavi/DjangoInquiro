@@ -2,7 +2,6 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import DetailView, View
 from django.views.decorators.http import require_POST
 from django.utils.decorators import method_decorator
-
 from .forms import QuestionForm
 from .models import Question
 from answers.models import Answer
