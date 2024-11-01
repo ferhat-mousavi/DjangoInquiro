@@ -11,11 +11,8 @@ from .models import Profile
 
 class ProfileView(View):
     def get(self, request, username):
-        print(1)
         user = get_object_or_404(User, username=username)
-        print(2)
         profile = get_object_or_404(Profile, user=user)  # Fetch Profile using the user
-        print(3)
 
         context = {
             'profile': profile,
