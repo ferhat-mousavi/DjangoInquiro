@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-o*h16$7#sz&-(k52tq!)#hldbq5#)i1*$_2t_ta)lar$ad+2l^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1']
 
 
 # Application definition
@@ -54,6 +54,9 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+if not DEBUG:
+    MIDDLEWARE.append('django_inquiro.middleware.HTMLMinifyMiddleware')
 
 ROOT_URLCONF = 'django_inquiro.urls'
 
