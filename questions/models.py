@@ -66,14 +66,10 @@ class Question(models.Model):
         self.score = self.up_votes - self.down_votes
         self.save()
 
-    def increment_views(self):
-        """Increase the view count by 1 each time the question is viewed"""
-        self.views += 1
-        self.save()
-
     def update_last_activity(self):
         """Update the last activity timestamp to the current time"""
         self.last_activity = timezone.now()
+        self.views += 1
         self.save()
 
     def report(self):
