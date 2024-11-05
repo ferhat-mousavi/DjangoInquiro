@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, Tag, Question
+from .models import Category, Tag, Question, QuestionVote, QuestionReport
 
 
 @admin.register(Category)
@@ -20,3 +20,6 @@ class QuestionAdmin(admin.ModelAdmin):
     list_filter = ('status', 'created_at', 'updated_at')
     search_fields = ('title', 'content')
     ordering = ('-created_at',)
+
+admin.site.register(QuestionVote)
+admin.site.register(QuestionReport)

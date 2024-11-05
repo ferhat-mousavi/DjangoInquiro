@@ -4,6 +4,36 @@ from django.utils import timezone
 from django.utils.text import slugify
 
 
+class QuestionVote(models.Model):
+    VOTE_TYPES = [
+        ('up', 'Upvote'),
+        ('down', 'Downvote'),
+    ]
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='question_votes')
+    question = models.ForeignKey('Question', on_delete=models.CASCADE, related_name='vote_entries')
+    vote_type = models.CharField(max_length=4, choices=VOTE_TYPES)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        unique_together = ('user', 'question')  # Ensures that a user can only vote once per question
+
+    def __str__(self):
+        return f"{self.user.username} - {self.vote_type} on {self.question.title}"
+
+
+class QuestionReport(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='question_reports')
+    question = models.ForeignKey('Question', on_delete=models.CASCADE, related_name='report_entries')
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        unique_together = ('user', 'question')  # Ensures that a user can only report once per question
+
+    def __str__(self):
+        return f"{self.user.username} reported {self.question.title}"
+
+
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
     description = models.TextField(blank=True)
@@ -54,17 +84,21 @@ class Question(models.Model):
     def __str__(self):
         return self.title
 
-    def up_vote(self):
-        """Increase the up_votes count by 1"""
-        self.up_votes += 1
-        self.score = self.up_votes - self.down_votes
-        self.save()
+    def up_vote(self, user):
+        """Increase the up_votes count by 1, only if the user has not already upvoted."""
+        if user.is_authenticated and not QuestionVote.objects.filter(user=user, question=self, vote_type='up').exists():
+            QuestionVote.objects.create(user=user, question=self, vote_type='up')
+            self.up_votes += 1
+            self.score = self.up_votes - self.down_votes
+            self.save()
 
-    def down_vote(self):
-        """Increase the down_votes count by 1"""
-        self.down_votes += 1
-        self.score = self.up_votes - self.down_votes
-        self.save()
+    def down_vote(self, user):
+        """Increase the down_votes count by 1, only if the user has not already downvoted."""
+        if user.is_authenticated and not QuestionVote.objects.filter(user=user, question=self, vote_type='down').exists():
+            QuestionVote.objects.create(user=user, question=self, vote_type='down')
+            self.down_votes += 1
+            self.score = self.up_votes - self.down_votes
+            self.save()
 
     def update_last_activity(self):
         """Update the last activity timestamp to the current time"""
@@ -72,10 +106,12 @@ class Question(models.Model):
         self.views += 1
         self.save()
 
-    def report(self):
-        """Increase the report count by 1 each time a user reports the question"""
-        self.reports += 1
-        self.save()
+    def report(self, user):
+        """Increase the report count by 1, only if the user has not already reported."""
+        if user.is_authenticated and not QuestionReport.objects.filter(user=user, question=self).exists():
+            QuestionReport.objects.create(user=user, question=self)
+            self.reports += 1
+            self.save()
 
     def save(self, *args, **kwargs):
         if not self.slug:

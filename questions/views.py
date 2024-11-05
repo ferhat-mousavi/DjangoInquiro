@@ -34,9 +34,9 @@ class QuestionVoteView(View):
         question = get_object_or_404(Question, id=id)
 
         if vote_type == 'up':
-            question.up_vote()
+            question.up_vote(request.user)
         elif vote_type == 'down':
-            question.down_vote()
+            question.down_vote(request.user)
 
         question.save()
         return redirect('question_detail', slug=question.slug)
