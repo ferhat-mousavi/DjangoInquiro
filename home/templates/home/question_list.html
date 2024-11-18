@@ -12,7 +12,7 @@
         <!-- Question List -->
         {% if questions %}
             <div class="row">
-                {% for question in questions %}
+                {% for question in page_obj %}
                     <div class="col-12 mb-4">
                         <a href="{% url 'question_detail' question.slug %}" class="text-decoration-none text-dark">
                             <div class="card">
