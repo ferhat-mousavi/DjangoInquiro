@@ -94,19 +94,25 @@ class Question(models.Model):
 
     def up_vote(self, user):
         """Increase the up_votes count by 1, only if the user has not already upvoted."""
-        if user.is_authenticated and not QuestionVote.objects.filter(user=user, question=self, vote_type='up').exists():
-            QuestionVote.objects.create(user=user, question=self, vote_type='up')
-            self.up_votes += 1
-            self.score = self.up_votes - self.down_votes
-            self.save()
+        try:
+            if user.is_authenticated and not QuestionVote.objects.filter(user=user, question=self, vote_type='up').exists():
+                QuestionVote.objects.create(user=user, question=self, vote_type='up')
+                self.up_votes += 1
+                self.score = self.up_votes - self.down_votes
+                self.save()
+        except:
+            pass
 
     def down_vote(self, user):
         """Increase the down_votes count by 1, only if the user has not already downvoted."""
-        if user.is_authenticated and not QuestionVote.objects.filter(user=user, question=self, vote_type='down').exists():
-            QuestionVote.objects.create(user=user, question=self, vote_type='down')
-            self.down_votes += 1
-            self.score = self.up_votes - self.down_votes
-            self.save()
+        try:
+            if user.is_authenticated and not QuestionVote.objects.filter(user=user, question=self, vote_type='down').exists():
+                QuestionVote.objects.create(user=user, question=self, vote_type='down')
+                self.down_votes += 1
+                self.score = self.up_votes - self.down_votes
+                self.save()
+        except:
+            pass
 
     def update_last_activity(self):
         """Update the last activity timestamp to the current time"""
