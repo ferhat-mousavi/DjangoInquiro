@@ -103,8 +103,7 @@
                                 <div class="card mb-2" style="text-align: right;">
                                     <div class="card-body p-2">
                                         <div class="card-text mb-0">{{ comment.content|markdownify }}</div>
-                                        <p class="text-muted small mb-0">Commented by: <strong>{{ comment.user.username
-                                            }}</strong> on {{ comment.created_at|date:"Y-m-d H:i" }}</p>
+                                        <p class="text-muted small mb-0">Commented by: <strong>{{ comment.user.username }}</strong> on {{ comment.created_at|date:"Y-m-d H:i" }}</p>
                                     </div>
                                 </div>
                                 {% endfor %}
