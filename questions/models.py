@@ -1,7 +1,9 @@
+import uuid
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 from django.utils.text import slugify
+from django.urls import reverse
 
 
 class QuestionVote(models.Model):
@@ -84,6 +86,12 @@ class Question(models.Model):
     def __str__(self):
         return self.title
 
+    def get_absolute_url(self):
+        try:
+            return reverse('question_detail', kwargs={'slug': self.slug})
+        except Exception as e:
+            return "/"
+
     def up_vote(self, user):
         """Increase the up_votes count by 1, only if the user has not already upvoted."""
         if user.is_authenticated and not QuestionVote.objects.filter(user=user, question=self, vote_type='up').exists():
@@ -115,5 +123,6 @@ class Question(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.title)
+            base_slug = slugify(self.title)
+            self.slug = f"{base_slug}-{uuid.uuid4().hex[:8]}"
         super(Question, self).save(*args, **kwargs)
