@@ -15,7 +15,7 @@
 
 ### Prerequisites
 - Python 3.13
-- Django 5.1.2
+- Django 5.2.5
 - Virtual environment setup (recommended)
 
 ### Installation
